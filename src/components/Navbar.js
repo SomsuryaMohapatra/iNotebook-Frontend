@@ -1,12 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
+  let location = useLocation();
+
   return (
     <div>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
-          <Link to="/" className="navbar-brand" >
+          <Link to="/" className="navbar-brand">
             iNotebook
           </Link>
           <button
@@ -25,15 +27,21 @@ export default function Navbar() {
               <li className="nav-item">
                 <Link
                   to="/"
-                  className="nav-link active"
+                  className={`nav-link ${
+                    location.pathname === "/" ? "active" : ""
+                  }`}
                   aria-current="page"
-                  
                 >
                   Home
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/about" className="nav-link" >
+                <Link
+                  to="/about"
+                  className={`nav-link ${
+                    location.pathname === "/about" ? "active" : ""
+                  }`}
+                >
                   About
                 </Link>
               </li>
