@@ -31,24 +31,26 @@ const NoteState = (props) => {
         "auth-token":
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyIjp7ImlkIjoiNjRhMDAxZTc4NjY3Nzc3ZWJmNDZlZjcwIn0sImlhdCI6MTY4ODIwNzkyOX0.lwV6wmdRqKuR9yD3ITtQDpAU5sXPbYHZcg1BIzanDAA",
       },
-      body: JSON.stringify({title,description,tag}),
+      body: JSON.stringify({ title, description, tag }),
     });
-    const json = response.json();
-
-    let note = {
-      _id: "64a113957b889486d4ee27c01",
-      user: "64a001e78667777ebf46ef70",
-      title: title,
-      description: description,
-      tag: tag,
-      date: "2023-07-02T06:05:09.556Z",
-      __v: 0,
-    };
-    setNotes(notes.concat(note));
+    if(response.status===200){
+      fetchAllNote();
+    }
   };
 
   //Delete a note
-  const deleteNote = (noteID) => {
+  const deleteNote = async (noteID) => {
+    const response = await fetch(`${host}/api/notes/deletenote/${noteID}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyIjp7ImlkIjoiNjRhMDAxZTc4NjY3Nzc3ZWJmNDZlZjcwIn0sImlhdCI6MTY4ODIwNzkyOX0.lwV6wmdRqKuR9yD3ITtQDpAU5sXPbYHZcg1BIzanDAA",
+      }
+    });
+    // const json = response.json();
+    // console.log(json);
+    
     const remainingNotes = notes.filter((note) => {
       return note._id !== noteID;
     });
@@ -59,15 +61,15 @@ const NoteState = (props) => {
   const updateNote = async (noteID, title, description, tag) => {
     //API Call
     const response = await fetch(`${host}/api/notes/updatenote/${noteID}`, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "auth-token":
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyIjp7ImlkIjoiNjRhMDAxZTc4NjY3Nzc3ZWJmNDZlZjcwIn0sImlhdCI6MTY4ODIwNzkyOX0.lwV6wmdRqKuR9yD3ITtQDpAU5sXPbYHZcg1BIzanDAA",
       },
-      body: JSON.stringify({title,description,tag}),
+      body: JSON.stringify({ title, description, tag }),
     });
-    const json = response.json();
+    //const json = response.json();
 
     //logic to edit note in cliet
     for (let index = 0; index < notes.length; index++) {
@@ -81,7 +83,9 @@ const NoteState = (props) => {
   };
 
   return (
-    <NoteContext.Provider value={{ notes, addNote, deleteNote, updateNote , fetchAllNote }}>
+    <NoteContext.Provider
+      value={{ notes, addNote, deleteNote, updateNote, fetchAllNote }}
+    >
       {props.children}
     </NoteContext.Provider>
   );
