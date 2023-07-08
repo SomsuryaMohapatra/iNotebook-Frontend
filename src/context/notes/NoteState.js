@@ -33,7 +33,7 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    if(response.status===200){
+    if (response.status === 200) {
       fetchAllNote();
     }
   };
@@ -46,11 +46,11 @@ const NoteState = (props) => {
         "Content-Type": "application/json",
         "auth-token":
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyIjp7ImlkIjoiNjRhMDAxZTc4NjY3Nzc3ZWJmNDZlZjcwIn0sImlhdCI6MTY4ODIwNzkyOX0.lwV6wmdRqKuR9yD3ITtQDpAU5sXPbYHZcg1BIzanDAA",
-      }
+      },
     });
-    // const json = response.json();
-    // console.log(json);
-    
+    const json = await response.json();
+    console.log(json);
+
     const remainingNotes = notes.filter((note) => {
       return note._id !== noteID;
     });
@@ -69,22 +69,26 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    //const json = response.json();
+    const json = await response.json();
+    console.log(json);
 
     //logic to edit note in cliet
-    for (let index = 0; index < notes.length; index++) {
-      const element = notes[index];
-      if (element._id === noteID) {
-        element.title = title;
-        element.description = description;
-        element.tag = tag;
+    let newNote=JSON.parse(JSON.stringify(notes));
+    for (let index = 0; index < newNote.length; index++) {
+      // const element = newNote[index];
+      if (newNote[index]._id === noteID) {
+        newNote[index].title = title;
+        newNote[index].description = description;
+        newNote[index].tag = tag;
+        break;
       }
     }
+    setNotes(newNote);
   };
 
   return (
     <NoteContext.Provider
-      value={{ notes, addNote, deleteNote, updateNote, fetchAllNote }}
+      value={{ notes, fetchAllNote, addNote, deleteNote, updateNote }}
     >
       {props.children}
     </NoteContext.Provider>
