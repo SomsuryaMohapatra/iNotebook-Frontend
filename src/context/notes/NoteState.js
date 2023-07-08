@@ -34,7 +34,9 @@ const NoteState = (props) => {
       body: JSON.stringify({ title, description, tag }),
     });
     if (response.status === 200) {
-      fetchAllNote();
+      let note=await response.json();
+      setNotes(notes.concat(note));
+      // fetchAllNote();
     }
   };
 

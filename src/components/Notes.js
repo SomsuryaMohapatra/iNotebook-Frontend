@@ -86,6 +86,8 @@ export default function Notes() {
                     name="etitle"
                     onChange={onChange}
                     value={note.etitle}
+                    minLength={5}
+                    required
                   />
                 </div>
                 <div className="mb-3">
@@ -99,6 +101,8 @@ export default function Notes() {
                     name="edescription"
                     onChange={onChange}
                     value={note.edescription}
+                    minLength={10}
+                    required
                   />
                 </div>
                 <div className="mb-3">
@@ -136,6 +140,7 @@ export default function Notes() {
                 type="button"
                 className="btn btn-primary"
                 onClick={handleSubmit}
+                disabled={note.etitle.length<5 || note.edescription.length<10}
               >
                 Update Note
               </button>
@@ -145,6 +150,9 @@ export default function Notes() {
       </div>
       <div className="row my-2">
         <h2>Your Note</h2>
+        <div className="container">
+          {notes.length === 0 && "No Notes to display"}
+        </div>
         {notes.map((note) => {
           return <NoteItem key={note._id} note={note} updateNote={editNote} />;
         })}

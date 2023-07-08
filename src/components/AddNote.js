@@ -8,12 +8,17 @@ export default function AddNote() {
   const [note, setNote] = useState({
     title: "",
     description: "",
-    tag: "Anime",
+    tag: "",
   });
 
   const handleSubmit = (event) => {
     event.preventDefault();
     addNote(note.title, note.description, note.tag);
+    setNote({
+      title: "",
+      description: "",
+      tag: "",
+    });
   };
 
   const onChange = (event) => {
@@ -33,6 +38,9 @@ export default function AddNote() {
             id="title"
             name="title"
             onChange={onChange}
+            minLength={5}
+            required
+            value={note.title}
           />
         </div>
         <div className="mb-3">
@@ -45,6 +53,9 @@ export default function AddNote() {
             id="description"
             name="description"
             onChange={onChange}
+            minLength={10}
+            required
+            value={note.description}
           />
         </div>
         <div className="mb-3">
@@ -57,12 +68,14 @@ export default function AddNote() {
             id="tag"
             name="tag"
             onChange={onChange}
+            value={note.tag}
           />
         </div>
         <button
           type="submit"
           className="btn btn-primary"
           onClick={handleSubmit}
+          disabled={note.title.length < 5 || note.description.length < 10}
         >
           Add Note
         </button>
