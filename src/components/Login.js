@@ -62,6 +62,7 @@ export default function Login() {
             className="form-control"
             id="password"
             name="password"
+            minLength={5}
             value={loginCredentials.password}
             onChange={onChange}
           />
