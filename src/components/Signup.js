@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Signup() {
+export default function Signup(props) {
   const navigate=useNavigate();
   const [signupCredentials, setSignupCredentials] = useState({
     name: "",
@@ -34,8 +34,9 @@ export default function Signup() {
     if (json.success) {
       localStorage.setItem("authToken", json.authToken);
       navigate('/');
+      props.showAlert("Account Created Successfully","success");
     }else{
-        alert("Invalid Credentials");
+      props.showAlert("Invalid Details","danger");
     }
   };
   return (
@@ -53,6 +54,7 @@ export default function Signup() {
             minLength={3}
             onChange={onChange}
             value={signupCredentials.name}
+            required
           />
         </div>
         <div className="mb-3">
@@ -66,6 +68,7 @@ export default function Signup() {
             name="email"
             onChange={onChange}
             value={signupCredentials.email}
+            required
           />
         </div>
         <div className="mb-3">
@@ -80,6 +83,7 @@ export default function Signup() {
             minLength={5}
             onChange={onChange}
             value={signupCredentials.password}
+            required
           />
         </div>
         <button type="submit" className="btn btn-primary">
