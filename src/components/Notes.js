@@ -5,36 +5,42 @@ import AddNote from "./AddNote";
 
 export default function Notes() {
   const context = useContext(noteContext);
-  const { notes, fetchAllNote } = context;
+  const { notes, fetchAllNote, updateNote } = context;
+
   useEffect(() => {
     fetchAllNote();
     // eslint-disable-next-line
   }, []);
 
+  const modalRef = useRef(null);
+  const closeModalRef = useRef(null);
+
   const [note, setNote] = useState({
+    id: "",
     etitle: "",
     edescription: "",
     etag: "",
   });
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("Updating the note...",note);
+    updateNote(note.id, note.etitle, note.edescription, note.etag);
+    closeModalRef.current.click();
   };
 
   const onChange = (event) => {
     setNote({ ...note, [event.target.name]: event.target.value });
   };
 
-  const modalRef = useRef(null);
-  const updateNote = (currentNote) => {
+  const editNote = (currentNote) => {
     modalRef.current.click();
     setNote({
+      id: currentNote._id,
       etitle: currentNote.title,
       edescription: currentNote.description,
       etag: currentNote.tag,
     });
   };
+
   return (
     <>
       <AddNote />
@@ -119,13 +125,18 @@ export default function Notes() {
             </div>
             <div className="modal-footer">
               <button
+                ref={closeModalRef}
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleSubmit}
+              >
                 Update Note
               </button>
             </div>
@@ -135,9 +146,7 @@ export default function Notes() {
       <div className="row my-2">
         <h2>Your Note</h2>
         {notes.map((note) => {
-          return (
-            <NoteItem key={note._id} note={note} updateNote={updateNote} />
-          );
+          return <NoteItem key={note._id} note={note} updateNote={editNote} />;
         })}
       </div>
     </>
