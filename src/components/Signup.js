@@ -41,7 +41,8 @@ export default function Signup(props) {
   };
   return (
     <div className="container">
-      <form onSubmit={handleSubmit}>
+      <h2>Create an account to use iNotebook</h2>
+      <form onSubmit={handleSubmit} className="my-3">
         <div className="mb-3">
           <label htmlFor="name" className="form-label">
             Name

@@ -13,8 +13,7 @@ const NoteState = (props) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyIjp7ImlkIjoiNjRhMDAxZTc4NjY3Nzc3ZWJmNDZlZjcwIn0sImlhdCI6MTY4ODIwNzkyOX0.lwV6wmdRqKuR9yD3ITtQDpAU5sXPbYHZcg1BIzanDAA",
+        "auth-token": localStorage.getItem("authToken"),
       },
     });
     const fetchedNotes = await response.json();
@@ -28,13 +27,12 @@ const NoteState = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyIjp7ImlkIjoiNjRhMDAxZTc4NjY3Nzc3ZWJmNDZlZjcwIn0sImlhdCI6MTY4ODIwNzkyOX0.lwV6wmdRqKuR9yD3ITtQDpAU5sXPbYHZcg1BIzanDAA",
+        "auth-token": localStorage.getItem("authToken"),
       },
       body: JSON.stringify({ title, description, tag }),
     });
     if (response.status === 200) {
-      let note=await response.json();
+      let note = await response.json();
       setNotes(notes.concat(note));
       // fetchAllNote();
     }
@@ -46,8 +44,7 @@ const NoteState = (props) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyIjp7ImlkIjoiNjRhMDAxZTc4NjY3Nzc3ZWJmNDZlZjcwIn0sImlhdCI6MTY4ODIwNzkyOX0.lwV6wmdRqKuR9yD3ITtQDpAU5sXPbYHZcg1BIzanDAA",
+        "auth-token": localStorage.getItem("authToken"),
       },
     });
     const json = await response.json();
@@ -66,8 +63,7 @@ const NoteState = (props) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyIjp7ImlkIjoiNjRhMDAxZTc4NjY3Nzc3ZWJmNDZlZjcwIn0sImlhdCI6MTY4ODIwNzkyOX0.lwV6wmdRqKuR9yD3ITtQDpAU5sXPbYHZcg1BIzanDAA",
+        "auth-token": localStorage.getItem("authToken"),
       },
       body: JSON.stringify({ title, description, tag }),
     });
@@ -75,7 +71,7 @@ const NoteState = (props) => {
     console.log(json);
 
     //logic to edit note in cliet
-    let newNote=JSON.parse(JSON.stringify(notes));
+    let newNote = JSON.parse(JSON.stringify(notes));
     for (let index = 0; index < newNote.length; index++) {
       // const element = newNote[index];
       if (newNote[index]._id === noteID) {
